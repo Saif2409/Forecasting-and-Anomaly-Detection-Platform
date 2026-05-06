@@ -1,6 +1,25 @@
 # Enterprise Forecasting & Anomaly Detection MLOps Platform
 
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-API-009688.svg)](https://fastapi.tiangolo.com/)
+[![MLflow](https://img.shields.io/badge/MLflow-Tracking-0194E2.svg)](https://mlflow.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg)](https://www.docker.com/)
+[![CI](https://github.com/Saif2409/Forecasting-and-Anomaly-Detection-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/Saif2409/Forecasting-and-Anomaly-Detection-Platform/actions/workflows/ci.yml)
+
 A production-style machine learning platform for enterprise demand forecasting, KPI anomaly detection, MLflow experiment tracking, FastAPI model serving, batch inference, monitoring, Dockerized services, PostgreSQL integration, and Airflow orchestration.
+
+## Quick Start
+
+```bash
+git clone https://github.com/Saif2409/Forecasting-and-Anomaly-Detection-Platform.git
+cd Forecasting-and-Anomaly-Detection-Platform
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python scripts/run_full_pipeline.py
+python -m pytest tests/
+uvicorn src.api.main:app --reload
+```
 
 ## 1. Project Title
 
@@ -360,7 +379,7 @@ Note: the local Python workflow uses file-based MLflow tracking by default so tr
 ## 16. How to Run Tests
 
 ```bash
-pytest tests/
+python -m pytest tests/
 ```
 
 Tests cover:
@@ -404,7 +423,7 @@ curl http://localhost:8000/metrics
 
 ## 18. Results
 
-The final reported results below come from the generated **50,000-row** run. They are not hardcoded and may change if you regenerate data with a different seed.
+The final reported results below come from the generated **50,000-row** run. They are not hardcoded and may change if you regenerate data with a different seed. The forecasting model shows strong lift over the baseline, while anomaly detection is reported conservatively because it uses an unsupervised detector.
 
 Forecasting model metrics:
 
@@ -448,13 +467,21 @@ The anomaly detection score is intentionally modest because Isolation Forest is 
 - **Simplified Airflow:** DAG is valid and readable, but production Airflow would need stronger infrastructure configuration.
 - **No authentication:** API is local-demo focused and does not include auth.
 
-## 20. Future Improvements
+## 20. Repository Notes
+
+- **Synthetic dataset:** The data is generated locally and is not based on one company or one country.
+- **Global scope:** The schema is broad global enterprise-style data, not SAP-specific, UAE-specific, or Saudi-specific.
+- **Environment files:** `.env` should not be committed; `.env.example` is provided as a safe template.
+- **Generated artifacts:** The project includes the full regeneration workflow so data, model, prediction, and report artifacts can be recreated locally for portfolio reproducibility.
+- **Regeneration command:** Run `python scripts/run_full_pipeline.py` to recreate the full local pipeline outputs.
+
+## 21. Future Improvements
 
 - Add real model registry promotion stages.
 - Add Prometheus and Grafana dashboards.
 - Add Evidently AI reports for richer drift analysis.
 - Add authentication and API rate limiting.
-- Add CI/CD pipeline.
+- Extend CI into full CD with automated Docker image publishing and deployment.
 - Add feature store integration.
 - Add model retraining triggers based on drift or error thresholds.
 - Add more advanced forecasting models and hierarchical reconciliation.
